@@ -41,6 +41,8 @@ urlpatterns = [
     path("invoices/", include("xshop.invoices.urls", namespace="invoices")),
     path("core/", include("xshop.core.urls", namespace="core")),
     path("cart/", include("xshop.cart.urls", namespace="cart")),
+    path("shop/", include("xshop.shops.urls", namespace="shop")),
+    path("product/", include("xshop.products.urls", namespace="product")),
     path("api/", include(api_urlpatterns)),  # API urls from above
     path("", include("xshop.pages.urls", namespace="pages")),
     # for testing error alerts

@@ -3,12 +3,13 @@ from django.urls import reverse
 from model_bakery import baker
 from rest_framework import status
 
-from xshop.products.models import Product
+from xshop.shops.models import Shop
 from xshop.users.models import User
+from xshop.products.models import Product
 
 
-@tag("productdetailview")
-class ProductDetailViewTests(TestCase):
+@tag("shopdetailview")
+class ShopDetailViewTests(TestCase):
     def setUp(self) -> None:
         self.user = baker.make(
             User,
@@ -18,32 +19,30 @@ class ProductDetailViewTests(TestCase):
         self.password = "testpass123"
         self.user.set_password(self.password)
         self.user.save()
-        self.product = baker.make(Product, stock=10, price=10)
+        self.shop = baker.make(Shop, mobile="01222222222")
+        self.product = baker.make(Product, shop=self.shop)
         self.client = Client()
-        self.url = reverse(
-            "product:product_details", kwargs={"product_id": self.product.id}
-        )
+        self.url = reverse("shop:shop_details", kwargs={"shop_id": self.shop.id})
 
-    def test_get_product_details_not_authenticated(self):
+    def test_get_shop_details_not_authenticated(self):
         resp = self.client.get(self.url)
 
         self.assertRedirects(
             resp,
-            "/users/login/?next=/product/{}".format(self.product.id),
+            "/users/login/?next=/shop/{}".format(self.shop.id),
             status_code=302,
             target_status_code=200,
             fetch_redirect_response=True,
         )
 
-    def test_get_product_details(self):
+    def test_get_shop_details(self):
         self.client.login(mobile=self.user.mobile, password=self.password)
         resp = self.client.get(self.url)
         self.assertEqual(resp.status_code, 200)
-        self.assertTemplateUsed(resp, "pages/product_detail.html")
+        self.assertTemplateUsed(resp, "pages/shop_details.html")
 
-    def test_retreive_product_details(self):
+    def test_retreive_products(self):
         self.client.login(mobile=self.user.mobile, password=self.password)
-        resp = self.client.get("/product/{}".format(self.product.id))
-        self.assertEqual(resp.context["price"], str(self.product.price)[4:])
-        self.assertEqual(resp.context["product"], self.product)
+        resp = self.client.get("/shop/{}".format(self.shop.id))
+        self.assertEqual(len(resp.context["products"]), 1)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)

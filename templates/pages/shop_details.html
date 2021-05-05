@@ -69,7 +69,7 @@
 		<section class="projects-clean">
 			<div class="container">
 				<div class="intro">
-					<h2 class="text-center">SHOPS</h2>
+					<h2 class="text-center">PRODUCTS</h2>
 					<form class="form-inline mr-auto" target="_self">
 						<div class="form-group mb-0"><label for="search-field"></label></div>
 					</form>
@@ -78,10 +78,10 @@
 			<div class="container">
 				<div class="intro"></div>
 				<div class="row projects">
-					{% for shop in shops %}
-					<div class="col-sm-6 col-lg-4 item"><a class="img-fluid" href="{% url 'shop:shop_details' shop.id %}"><img class="img-fluid"
+					{% for product in products %}
+					<div class="col-sm-6 col-lg-4 item"><a class="img-fluid" href="{% url 'product:product_details' product.id %}"><img class="img-fluid"
 							src="{% static 'img/desk.jpg' %}"></a>
-						<h3 class="name">{{ shop.name }}</h3>
+						<h3 class="name">{{ product.name }}</h3>
 						<p class="description">Aenean tortor est, vulputate quis leo in, vehicula rhoncus lacus. Praesent aliquam in
 							tellus eu gravida. Aliquam varius finibus est, interdum justo suscipit id.</p>
 					</div>

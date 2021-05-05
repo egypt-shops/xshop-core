@@ -4,6 +4,8 @@ from django.views.generic import ListView
 
 from xshop.cart.cart import Cart
 from xshop.cart.forms import CartPostProductForm
+from xshop.products.models import Product
+from xshop.products.api.serializers import ProductSerializer
 
 
 class CartView(LoginRequiredMixin, ListView):
@@ -16,10 +18,10 @@ class CartView(LoginRequiredMixin, ListView):
             action = cd["actions"]
             product = cd["product"]
 
-            if action == "add":
-                cart.add(product=product)
+            # if action == "add":
+            #     cart.add(product=product)
 
-                return redirect("cart:cart_ops")
+            #     return redirect("cart:cart_ops")
 
             if action == "update":
                 cart.update(
@@ -28,6 +30,19 @@ class CartView(LoginRequiredMixin, ListView):
                 )
 
                 return redirect("cart:cart_ops")
+
+        if request.POST.get("actions") == "add":
+            product_id = int(request.POST.get("product_id"))
+            try:
+                product = Product.objects.get(id=product_id)
+
+                product_json = ProductSerializer(product).data
+
+                cart.add(product=product_json)
+
+                return redirect("cart:cart_ops")
+            except Product.DoesNotExist:
+                form.errors["product_id"] = "Not found"
 
         if request.POST.get("action") == "remove":
             product_id = int(request.POST.get("productid"))

@@ -140,24 +140,6 @@
                 error: function(xhr, errmsg, err) {}
             })
         })
-        // $(document).on('click', '.update-button', function(e){
-        //     e.preventDefault();
-        //     var update_id = $(this).data('index')
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: '{% url "cart:cart_ops" %}',
-        //         data: {
-        //             productid: $(this).data('index'),
-        //             quantity: '{{ item.update_quantity_form.quantity }}',
-        //             csrfmiddlewaretoken: '{{ csrf_token }}',
-        //             actions:'update'
-        //         },
-        //         success: function(json){
-        //             location.reload();
-        //         },
-        //         error: function(xhr, errmsg, err) {}
-        //     })
-        // })
     </script>
     <script src="{% static 'js/js/jquery.min.js' %}"></script>
     <script src="{% static 'css/cart_css/bootstrap/js/bootstrap.min.js' %}"></script>

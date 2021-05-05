@@ -130,13 +130,3 @@ class CartTests(TestCase):
             target_status_code=200,
             fetch_redirect_response=True,
         )
-
-    # def test_retreive_shops(self):
-    #     resp = self.client.get("/")
-    #     self.assertEqual(len(resp.context["shops"]), 2)
-    #     self.assertEqual(resp.status_code, status.HTTP_200_OK)
-
-    #     # Check for logged in user
-    #     self.client.force_login(self.user)
-    #     self.assertEqual(len(resp.context["shops"]), 2)
-    #     self.assertEqual(resp.status_code, status.HTTP_200_OK)
